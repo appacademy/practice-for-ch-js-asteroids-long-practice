@@ -52,9 +52,9 @@ Write a `GameView.prototype.animate` method. It should:
 - Call `requestAnimationFrame`, passing in the `GameView.prototype.animate`.
   Yes, this is recursive. Each frame calls the next.
 
-- Call `Game.prototype.moveObjects(delta)` and `Game.prototype.draw(ctx)`
+- Call `Game.prototype.moveObjects(delta)` and `Game.prototype.draw(ctx)`.
 
-- Update `this.lastTime` to be equal to the current time;
+- Update `this.lastTime` to be equal to the current time.
 
 Refactor your `GameView.prototype.start` method. It will make the first call to
 `requestAnimationFrame`, passing in the `GameView.prototype.animate`.

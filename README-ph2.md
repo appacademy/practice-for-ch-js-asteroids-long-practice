@@ -15,7 +15,7 @@ Store key instance variables:
 - `color`
 
 Rather than pass all these as separate arguments, write your `MovingObject`
-constructor function so that you can pass in a single options object:
+constructor function so that you can pass in a single options object, like this:
 
 ```js
 const mo = new MovingObject({
@@ -29,31 +29,33 @@ const mo = new MovingObject({
 (This is a common pattern that you will see frequently moving forward.)
 
 **Test:** Verify that your `MovingObject` constructor works as expected. To
-access your `MovingObject` constructor in your browser's console, you will need
-to first export it using `module.exports`, then require __moving_object.js__ in
-your entry file, then declare the constructor function on the window. Look at
-the snippets below as a guide. Make sure you can create a `MovingObject` in your
-console!
+access your `MovingObject` constructor in your browser's console, you will first
+need to `export` `MovingObject` then `import` it from __moving_object.js__ in
+your entry file and put it on the window. Look at the snippets below as a guide.
+Make sure you can create a `MovingObject` in your console!
 
 ```js
-// moving_object.js
-function MovingObject() {
+// src/moving_object.js
+
+class MovingObject {
   // your code
 }
 
-module.exports = MovingObject;
+export default MovingObject;
 ```
 
 ```js
-// index.js
-const MovingObject = require("./moving_object.js");
+// src/index.js
+
+import MovingObject from "./moving_object.js";
 
 window.MovingObject = MovingObject;
 ```
 
-Next, write a `MovingObject.prototype.draw(ctx)` method. Draw a circle of the
-appropriate `radius` centered at `pos`. Fill it with the appropriate `color`.
-Refer to the Drunken Circles demo if you need a refresher on Canvas.
+Next, write a `draw(ctx)` instance method inside your `MovingObject` class. Draw
+a circle of the appropriate `radius` centered at `pos`. Fill it with the
+appropriate `color`. Refer to the Drunken Circles demo if you need a refresher
+on Canvas.
 
 In __index.js__, use `document.getElementById()` to find the canvas element.
 Call `getContext` on the canvas element with `"2d"` as the argument to extract a
@@ -61,7 +63,8 @@ canvas context.
 
 **Test:** Make sure you can draw a `MovingObject`.
 
-Write a `MovingObject.prototype.move` method. Increment the `pos` by the `vel`.
+Write a `move` instance method on your `MovingObject` class. Increment the `pos`
+by the `vel`.
 
 ### Deepen your understanding: Loading scripts
 
@@ -93,111 +96,109 @@ exactly what you want. Refresh your browser and watch the error disappear!
 
 [`DOMContentLoaded`]: https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded#Example
 
-## Util
-
-You want your classes to inherit from one another. You could monkey-patch
-`Function` to add an `inherits` method:
-
-```js
-Function.prototype.inherits = function (ParentClass) { ... };
-```
-
-Monkey-patching, however, can cause problems and should be done judiciously.
-Instead, create a general utilities module in __src/util.js__ and add your
-first utility function:
-
-```js
-Util.inherits = function (childClass, parentClass) { ... }
-```
-
-**Note:** You should export a POJO (plain old JavaScript object) from Util, not
-a class or constructor function. You don't need to create instances of `Util`.
-
-```js
-const Util = {
-  inherits(childClass, parentClass) {
-    //...
-  }
-};
-
-module.exports = Util;
-```
-
-The code below achieves the same effect as the code above but is written with
-clearer ES6 syntax:
-
-```js
-const Util = {
-  inherits: function inherits(childClass, parentClass) {
-    //...
-  }
-};
-
-module.exports = Util;
-```
-
-### Asteroid
+## Asteroid
 
 Write an `Asteroid` class in a __src/asteroid.js__ file. This should inherit
-from `MovingObject`.
-
-Pick a default `COLOR` and `RADIUS` for `Asteroid`s. Set these as properties of
-the `Asteroid` class: `Asteroid.COLOR` and `Asteroid.RADIUS`.
-
-Write your `Asteroid` constructor so that the caller specifies the `pos` and
-calls the `MovingObject` constructor, setting `color` and `radius` to the
-`Asteroid` defaults, and choosing a random vector for `vel`. Use the following
-helper functions from the Util object to help you create a random vector.
+from `MovingObject`. Remember to use ES6 syntax for your inheritance and to
+export your class as the default:
 
 ```js
-// Return a randomly oriented vector with the given length.
-const Util = {
-  randomVec(length) {
-    const deg = 2 * Math.PI * Math.random();
-    return Util.scale([Math.sin(deg), Math.cos(deg)], length);
-  },
-  // Scale the length of a vector by the given amount.
-  scale(vec, m) {
-    return [vec[0] * m, vec[1] * m];
-  }
-};
+// src/asteroid.js
+
+class Asteroid extends MovingObject {
+
+}
+
+export default Asteroid;
 ```
+
+Pick a default `COLOR` and `RADIUS` for `Asteroid`s. Set these as properties of
+the `Asteroid` class, which you will access as `Asteroid.COLOR` and
+`Asteroid.RADIUS`. To do this, declare them as static public class fields, e.g.:
+
+```js
+// src/asteroid.js
+
+class Asteroid extends MovingObject {
+  static RADIUS = 25;
+  // ...
+}
+```
+
+Declaring the field as `static` sets it on the class itself instead of on
+individual instances. For more on static class fields, see
+[here][static-fields].
+
+Write your `Asteroid` constructor to take an options object. Let the caller
+specify the `pos`. Set `color` and `radius` to the `Asteroid` defaults, and
+choose a random vector for `vel`. In __src/util.js__, create and export the
+following helper functions to help you create the random vector:
+
+```js
+// src/util.js
+
+// Return a randomly oriented vector with the given length.
+export randomVec(length) {
+  const deg = 2 * Math.PI * Math.random();
+  return Util.scale([Math.sin(deg), Math.cos(deg)], length);
+}
+
+// Scale the length of a vector by the given amount.
+export scale(vec, m) {
+  return [vec[0] * m, vec[1] * m];
+}
+```
+
+**Note:** You don't need a `Util` class or default export from __src/util.js__
+because you don't need to create instances of `Util`; you just need access to
+the individual functions.
+
+Make sure to import the functions into __src/asteroid.js__:
+
+```js
+// src/asteroid.js
+
+import * as Util from "./util.js";
+```
+
+This line imports all the exports from `"./util.js"` under the namespace of
+`Util`. You would then access the imported functions through the namespace like
+this: `Util.randomVec()`. Alternatively, you could import only the functions you
+need by destructuring them by name:
+
+```js
+// src/asteroid.js
+
+import { randomVec } from "./util.js";
+```
+
+Once you have filled in all the fields on the options object, pass it to the
+`MovingObject` constructor using `super`. You should now be able to create a new
+`Asteroid` with the following:
 
 ```js
 // Other properties are filled in for you.
 new Asteroid({ pos: [30, 30] });
 ```
 
-Why do you still need to call `MovingObject`'s constructor function from within
-`Asteroid`'s constructor function?
-
-Your `inherits` function sets up the prototype inheritance chain, which makes
-methods available on the parent's prototype available to instances of the child
-class. However, you still need to call `MovingObject`'s constructor function
-from within `Asteroid`'s constructor function to access the code that sets
-properties such as `this.pos` and `this.vel`. It's the equivalent to calling
-`super` in a class's `#initialize` method in Ruby.
-
-**Note:** Invoking an ES2015 class constructor without `new` (such as
-`MovingObject` with `call()`) throws an error. Hence the need to use ES5 syntax
-for this project.
-
 **Test:** Make sure you can create and draw an Asteroid.
 
-### Game
+[static-fields]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static
+
+## Game
 
 `Game` will be in charge of holding all of your moving objects. It will also
 contain the logic for iterating through these objects and calling their
 corresponding `move` methods.
 
 Write a `Game` class in __src/game.js__. Define the following constants on the
-`Game` class: `DIM_X`, `DIM_Y`, and `NUM_ASTEROIDS`.
+`Game` class (use `static` fields!): `DIM_X`, `DIM_Y`, and `NUM_ASTEROIDS`.
 
-Write a `Game.prototype.addAsteroids` method. Randomly place the asteroids
-within the dimensions of the game grid. You may also wish to write a
-`Game.prototype.randomPosition` method. Store the asteroids as a property of
-your game instance in an array `asteroids`. Call `addAsteroids` in your
-constructor.
+Write an `addAsteroids` instance method on your `Game` class that randomly
+places the asteroids within the dimensions of the game grid. (You should also
+write a `Game.prototype.randomPosition` helper method; it will come in handy
+later.) Store the asteroids as a property of your game instance in an array
+`asteroids`. Call `addAsteroids` in your constructor.
 
 Write a `Game.prototype.draw(ctx)` method. It should call `clearRect` on the
 `ctx` to wipe down the entire space. Call the `draw` method on each of the
@@ -206,7 +207,7 @@ Write a `Game.prototype.draw(ctx)` method. It should call `clearRect` on the
 Write a `Game.prototype.moveObjects` method. It should call `move` on each of
 the `asteroids`.
 
-### GameView
+## GameView
 
 Your `GameView` class will be responsible for keeping track of the canvas
 context, the game, and the ship. Your `GameView` will be in charge of setting an
@@ -219,7 +220,7 @@ Define a `GameView` class in __src/game_view.js__. The `GameView` should store a
 Write a `GameView.prototype.start` method. It should call `setInterval` to call
 `Game.prototype.moveObjects` and `Game.prototype.draw` once every 20ms or so.
 
-### Back to your entry file
+## Back to your entry file
 
 Once you have your `GameView` set up, construct a `GameView` object and call
 `GameView.prototype.start` in __index.js__.

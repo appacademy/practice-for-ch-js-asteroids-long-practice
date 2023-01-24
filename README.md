@@ -4,8 +4,7 @@ In this practice, you will implement the classic game Asteroids.
 
 ## Learning Goals
 
-- Be able to implement prototypal inheritance to give a class another class's
-  methods and attributes
+- Be able to implement prototypal inheritance using ES6 class syntax
 - Be able to include JavaScript in a web page
   - Know how Webpack works
   - Know how to test JavaScript code using `window.x = x`
@@ -47,13 +46,30 @@ of the following will be located in the __src__ directory:
   - Installs key listeners to move the ship and fire bullets.
   - Installs a timer to call `Game.prototype.step`.
 
+> **Note:** JavaScript documentation identifies instance methods by inserting
+> `.prototype` before the method name, similarly to the way Ruby uses `#`. So,
+> e.g., `Game.prototype.step` signifies that `step` is a instance method of
+> `Game`. (In Ruby, it would be `Game#step`.) For class methods, just drop the
+> `.prototype`: `Game.step` in JavaScript is equivalent to `Game::step` in Ruby.
+
 ## Important Note Regarding ES6
 
-**Do not use ES6 class syntax in this project.** Understanding prototypal
-inheritance is the main focus of today's project. Because ES6 class syntax
-obscures how prototypal inheritance works--and has some incompatibilities with
-the instructions below--avoid using it while working today. Ask your TA for a
-more nuanced explanation if you need more information.
+**Use ES6 class syntax in this project.** To this point, your JS instruction has
+focused on helping you understand prototypal inheritance. Because ES6 class
+syntax obscures how prototypal inheritance works, you have been discouraged from
+using that syntax. Now that you presumably have a good grasp on the inner
+workings of prototypal inheritance, however, it is time to start using the more
+current syntax. You should accordingly use ES6 class syntax for today's project.
+(Just remember that JS class syntax is really just syntactic sugar for the
+prototypal inheritance pattern that you have come to know and love!)
+
+See the [MDN docs] for a good overview of classes in JS.
+
+This practice will also use the ESM (ECMAScript Modules) syntax for `import`ing
+and `export`ing rather than the `require` / `modules.export` syntax of CJS
+(Common JavaScript).
+
+[MDN docs]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_Classes
 
 ## A Refresher on Vectors
 
@@ -78,7 +94,9 @@ velocity vector is a speed. If `obj.vel = [3, 4]` (3 horizontal pixels and 4
 vertical pixels per unit time) then the overall speed is 5 pixels per unit time.
 You can easily calculate the norm of a vector using your distance function:
 
-    Norm([x_1, y_1]) = Dist([0, 0], [x_1, y_1])
+```js
+Norm([x_1, y_1]) = Dist([0, 0], [x_1, y_1])
+```
 
 ## Phase 0: __index.html__
 
@@ -98,8 +116,9 @@ and use the browser's JavaScript console to test your code as you go.
 As stated above, you will create classes and objects in different files; they
 will need to interact with one another. When using JavaScript in the browser
 there is no standard, native way to have one file require another. Webpack will
-allow you to use `require` and `module.exports` syntax to import and export your
-classes and objects from different files.
+allow you to use ESM `import` and `export` syntax to import and export your
+classes and objects from different files. (Webpack can also handle the `require`
+/ `module.exports` CJS syntax for importing and exporting.)
 
 Let's start by installing local versions of `webpack` and `webpack-cli` in your
 project. First, run `npm init -y` to create a __package.json__ and accept the
@@ -146,8 +165,8 @@ it should be at the same level as the __dist__ folder. Within __src__, create an
 __index.js__ file to serve as Webpack's entry point. You're all set!
 
 Webpack takes your source files--starting with the entry point __src/index.js__,
-it then includes any files __index.js__ `require`s, any files that those files
-`require`, and so on--and produces a _build_ (__dist/main.js__) for the browser
+it then includes any files __index.js__ `import`s, any files that those files
+`import`, and so on--and produces a _build_ (__dist/main.js__) for the browser
 to use. To create a build of your app, run `npm start` in your root directory
 (i.e., the directory with the __package.json__). This command will run the
 `start` script that you defined in your __package.json__: `webpack --watch

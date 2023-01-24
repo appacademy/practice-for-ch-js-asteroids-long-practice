@@ -38,8 +38,8 @@ Write a `Game.prototype.step` method, which calls `Game.prototype.moveObjects`
 then `Game.prototype.checkCollisions`. Call this in `GameView.prototype.start`
 instead of `moveObjects` directly.
 
-**Check your work**. This shouldn't be too hard if you reduce
-`Game.NUM_ASTEROIDS = 4` or so.
+**Check your work**. This shouldn't be too hard if you make `Game.NUM_ASTEROIDS
+= 4` or so.
 
 Lastly: when an asteroid crashes into another, let's remove both asteroids.
 Write `Game.prototype.remove(asteroid)` and
@@ -48,7 +48,7 @@ Write `Game.prototype.remove(asteroid)` and
 on both objects.
 
 You'll change this soon, but you want to have collision and removal logic
-working. **Check that when two asteroids collide, they both go away**.
+working. **Check that when two asteroids collide, they both go away.**
 
 ## Phase 4: `Ship`
 
@@ -69,12 +69,12 @@ removing colliding asteroids; your `MovingObject.prototype.collideWith` should
 be empty. Instead, overwrite the superclass's method with
 `Asteroid.prototype.collideWith(otherObject)`: if `otherObject instanceof Ship`,
 call `Ship.prototype.relocate`. The `Ship.prototype.relocate` method should
-reset the `Ship`'s position to `game.randomPosition()` and reset the velocity to
-the zero vector.
+reset the `Ship`'s position to `game.randomPosition()` and reset the
+velocity to the zero vector.
 
 ### Moving the ship
 
-Add a `Ship.prototype.power(impulse)`. The impulse should be added to the
+Add a `Ship.prototype.power(impulse)` method. The impulse should be added to the
 current velocity of the ship.
 
 Add a `GameView.prototype.bindKeyHandlers` method. Check out the [`keymaster`]
@@ -117,8 +117,8 @@ grid, it should be removed.
 Write a `Game.prototype.isOutOfBounds(pos)` to return `true` if an object slips
 off screen.
 
-Define a property `MovingObject.prototype.isWrappable = true`. However, you can
-overwrite this in `Bullet` to be false.
+Define a property `MovingObject.prototype.isWrappable = true`. Overwrite this
+property in `Bullet` to be false.
 
 In `MovingObject.prototype.move`, after updating the position, check if the
 object is out of bounds. If so, either (A) wrap the object if it `isWrappable`
