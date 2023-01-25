@@ -109,6 +109,9 @@ Update your `Game.prototype.allObjects` as well.
 Update `GameView.prototype.addKeyBindings` to bind a key to
 `Ship.prototype.fireBullet`.
 
+Finally, update `Asteroid.prototype.collideWith` to remove both objects if a
+`Bullet` collides with an `Asteroid`.
+
 ### Cleaning up objects
 
 Your `Bullet` should not wrap like other objects. When it leaves the visible

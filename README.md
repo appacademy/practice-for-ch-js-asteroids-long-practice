@@ -47,7 +47,7 @@ of the following will be located in the __src__ directory:
   - Installs a timer to call `Game.prototype.step`.
 
 > **Note:** JavaScript documentation identifies instance methods by inserting
-> `.prototype` before the method name, similarly to the way Ruby uses `#`. So,
+> `prototype.` before the method name, similarly to the way Ruby uses `#`. So,
 > e.g., `Game.prototype.step` signifies that `step` is a instance method of
 > `Game`. (In Ruby, it would be `Game#step`.) For class methods, just drop the
 > `.prototype`: `Game.step` in JavaScript is equivalent to `Game::step` in Ruby.
@@ -83,7 +83,7 @@ position, while a velocity vector has a speed in the `x` and the `y` directions.
 To find the "distance" between two points, the formula is:
 
 ```js
-// this is math, not JavaScript
+// this is math, NOT JavaScript
 Dist([x_1, y_1], [x_2, y_2]) = sqrt((x_1 - x_2) ** 2 + (y_1 - y_2) ** 2)
 ```
 

@@ -140,7 +140,7 @@ following helper functions to help you create the random vector:
 // Return a randomly oriented vector with the given length.
 export randomVec(length) {
   const deg = 2 * Math.PI * Math.random();
-  return Util.scale([Math.sin(deg), Math.cos(deg)], length);
+  return scale([Math.sin(deg), Math.cos(deg)], length);
 }
 
 // Scale the length of a vector by the given amount.
@@ -199,6 +199,22 @@ places the asteroids within the dimensions of the game grid. (You should also
 write a `Game.prototype.randomPosition` helper method; it will come in handy
 later.) Store the asteroids as a property of your game instance in an array
 `asteroids`. Call `addAsteroids` in your constructor.
+
+**Note:** Remember that `Game.prototype.randomPosition` simply signifies that
+the `Game` class has an instance method named `randomPosition`. Although the
+method will effectively be stored on the prototype behind the scenes, ES6 class
+syntax does not require that you mention the prototype when defining your
+method. So you can define `Game.prototype.randomPosition` simply like this:
+
+```js
+class Game {
+  // ...
+
+  randomPosition() {
+    // Your code here
+  }
+}
+```
 
 Write a `Game.prototype.draw(ctx)` method. It should call `clearRect` on the
 `ctx` to wipe down the entire space. Call the `draw` method on each of the
