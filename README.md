@@ -22,7 +22,7 @@ of the following will be located in the __src__ directory:
 
 - `Util` (__src/utils.js__)
   - Utility code, especially vector math stuff.
-- `MovingObject` (__src/moving_object.js__)
+- `MovingObject` (__src/moving-object.js__)
   - Base class for anything that moves.
   - Most important methods are `MovingObject.prototype.move`,
     `MovingObject.prototype.draw(ctx)`, and
@@ -40,7 +40,7 @@ of the following will be located in the __src__ directory:
   - `Game.prototype.draw(ctx)` draws the game.
   - Keeps track of dimensions of the space; wraps objects around when they drift
     off the screen.
-- `GameView` (__src/game_view.js__)
+- `GameView` (__src/game-view.js__)
   - Stores a `Game` instance.
   - Stores a `canvas` context to draw the game into.
   - Installs key listeners to move the ship and fire bullets.

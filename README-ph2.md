@@ -5,7 +5,7 @@ derived class, `Asteroid`.
 
 ## `MovingObject`
 
-Write a `MovingObject` class in __src/moving_object.js__.
+Write a `MovingObject` class in __src/moving-object.js__.
 
 Store key instance variables:
 
@@ -30,12 +30,12 @@ const mo = new MovingObject({
 
 **Test:** Verify that your `MovingObject` constructor works as expected. To
 access your `MovingObject` constructor in your browser's console, you will first
-need to `export` `MovingObject` then `import` it from __moving_object.js__ in
+need to `export` `MovingObject` then `import` it from __moving-object.js__ in
 your entry file and put it on the window. Look at the snippets below as a guide.
 Make sure you can create a `MovingObject` in your console!
 
 ```js
-// src/moving_object.js
+// src/moving-object.js
 
 class MovingObject {
   // your code
@@ -47,7 +47,7 @@ export default MovingObject;
 ```js
 // src/index.js
 
-import MovingObject from "./moving_object.js";
+import MovingObject from "./moving-object.js";
 
 window.MovingObject = MovingObject;
 ```
@@ -230,7 +230,7 @@ context, the game, and the ship. Your `GameView` will be in charge of setting an
 interval to animate your game. In addition, it will eventually bind key handlers
 to the ship so that you can move it around.
 
-Define a `GameView` class in __src/game_view.js__. The `GameView` should store a
+Define a `GameView` class in __src/game-view.js__. The `GameView` should store a
 `Game` and take in and store a drawing `ctx`.
 
 Write a `GameView.prototype.start` method. It should call `setInterval` to call
