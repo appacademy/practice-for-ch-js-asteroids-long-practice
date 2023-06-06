@@ -2,7 +2,7 @@
 
 In this practice, you will implement the classic game Asteroids.
 
-## Learning Goals
+## Learning goals
 
 - Be able to implement prototypal inheritance using ES6 class syntax
 - Be able to include JavaScript in a web page
